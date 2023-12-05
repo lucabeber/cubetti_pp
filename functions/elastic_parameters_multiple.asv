@@ -1,0 +1,90 @@
+function [elast,visc] = elastic_parameters_multiple(file_name,error,data)
+    
+    bag = ros2bagreader("test_multipli2/test_cubetti" + file_name);
+
+    bag_data = select(bag,"Topic","/data_control");
+    mes_data = readMessages(bag_data);
+    
+    n_mess = bag_data.NumMessages;
+    
+    
+    sim_time = zeros(n_mess,1);
+    for i = 1:n_mess
+        sim_time(i) =  mes_data{i, 1}.data(1);  
+    end
+    initial_time = sim_time(1);
+    sim_time(:) = sim_time(:)-initial_time;
+    dT = sim_time(2);
+    
+    
+    force_z = zeros(n_mess,1);
+    for i = 1:n_mess
+        force_z(i) =  mes_data{i, 1}.data(6);  
+    end
+
+    position_real = zeros(n_mess,1);
+    position_des = zeros(n_mess,1);
+    for i = 1:n_mess
+        position_real(i) =  mes_data{i, 1}.data(3);  
+        position_des(i) =  mes_data{i, 1}.data(2); 
+    end
+    
+    velocity_z = zeros(n_mess,1);
+    for i = 1:n_mess
+        velocity_z(i) =  mes_data{i, 1}.data(5);  
+    end
+
+    velocity_z = smoothdata(velocity_z,"SmoothingFactor",0.1);
+    
+    n_exp = zeros(n_mess,1);
+    for i = 1:n_mess
+        n_exp(i) =  mes_data{i, 1}.data(7);  
+    end
+   
+    elast = zeros(1,20);
+        
+%     figure;
+
+    for i=1:20
+        data_position = find(n_exp==i);
+        force_zt = force_z(data_position);
+        position_realt = position_real(data_position);
+
+        force = -(force_zt - mean(force_zt(1:600)));
+        k = 1;
+        flag = true;
+        while(flag)
+            start = find(force>error,k)-data;
+            start = start(k);
+            
+            if start>900
+                flag = false;
+            end
+            k=k+1;
+        end
+        
+        n = 1.5;
+        
+        penetration = position_realt - position_realt(start);
+        finish = find(penetration>0.0025);
+        
+        X = real([(penetration(start:finish-1)).^(n)]);%,-velocity_z(start:finish-1).*(penetration.^(n-1))]);
+        ls_coeff = lsqr(X,force(start:finish-1));
+    
+        elast(i) = 3 * ls_coeff(1) / (4  * sqrt(0.01)) * (1-0.5^2);
+        visc = 0;%ls_coeff(2)/2;
+
+%         subplot(4,5,i);
+%         plot(ls_coeff(1)*X(:,1))%  + ls_coeff(2)*X(:,2))
+%         hold on 
+%         plot(force(start:finish-1))
+%         hold off 
+%         legend(["est","ft"])
+    end
+
+%     figure(100)
+%     hold on 
+%     plot(elast(1:20),"-o")
+%     hold off
+
+end

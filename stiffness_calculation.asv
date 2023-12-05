@@ -1,0 +1,41 @@
+clc
+close all
+clear 
+
+%% Import data from txt file
+
+file_name = "bianco_2.txt";
+
+data2 = readmatrix("/Users/lucabeber/Documents/Dottorato/Cubes/Data_txt/Nuovi fine novembre/grigio a.TXT");
+data = readmatrix("/Users/lucabeber/Documents/Dottorato/Cubes/Data_txt/Grigio meno 5mm.txt");
+
+%% Plot of displacement vs force
+figure;
+
+hold on
+plot(data(1:2*1595,2), data(1:2*1595,3))
+plot(data2(:,2), data2(:,3))
+hold off
+xlabel("mm")
+ylabel("N")
+legend(["test novembre","test dicembre"])
+%% Interpolation of data
+pos_max = max(data(1:1500));
+stiff = lsqr(data(500:pos_max,2)/1000, data(100:751,3))
+pos_max2 = max(data);
+stiff2 = lsqr(data(250:pos_max2,2)/1000, data(100:751,3))
+%% Plot of interpolated data
+
+figure(2)
+time = 0:1/50:1/50*1500;
+time2 = 0:1/25:1/25*(799);
+
+plot(time,data(1:1501,3))
+hold on
+plot(time2,data2(1:800,3))
+
+legend(["Novembre","Dicembre"])
+
+
+
+
