@@ -1,8 +1,8 @@
 function [elast,res] = elastic_parameters(file_name,error)
-    max_pen = 0.005;
+    max_pen = 0.003;
     n = 1.5;
-    min_elements = 300;
-    bag = ros2bagreader("Test_multipli/" + file_name);
+    min_elements = 500;
+    bag = ros2bagreader(file_name);
 
     bag_data = select(bag,"Topic","/data_control");
     mes_data = readMessages(bag_data);

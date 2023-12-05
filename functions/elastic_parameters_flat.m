@@ -2,7 +2,7 @@ function [elast,res] = elastic_parameters_flat(file_name,error)
     max_pen = 0.003;
     n = 1;
     min_elements = 200;
-    bag = ros2bagreader("Test_multipli/" + file_name);
+    bag = ros2bagreader( file_name);
 
     bag_data = select(bag,"Topic","/data_control");
     mes_data = readMessages(bag_data);
@@ -40,7 +40,7 @@ function [elast,res] = elastic_parameters_flat(file_name,error)
     
     force = -(force_z - mean(force_z(1:min_elements)));
 %     warning('off', 'all');
-    error = fminsearch(@(x)res_minimization(x,force,100,position_real,max_pen,min_elements,n),error);
+    error = fminsearch(@(x)res_minimization(x,force,100,position_real,max_pen,min_elements,n),error)
 %     warning('on', 'all');
     k = 1;
     flag = true;
@@ -64,10 +64,10 @@ function [elast,res] = elastic_parameters_flat(file_name,error)
     elast = ls_coeff(1) / (2  * 0.01) * (1-0.5^2);
     visc = 0;%ls_coeff(2)/2;
     sim_time = 0:0.002:0.002*(length(X)-1);
-
+    figure;
     plot(sim_time,ls_coeff(1)*X(:,1))%  + ls_coeff(2)*X(:,2))
-    
+    hold on 
     plot(sim_time,force(start:finish-1))
-     
+    hold off
     legend(["est","ft"])
 end
