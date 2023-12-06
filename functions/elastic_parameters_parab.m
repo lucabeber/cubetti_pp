@@ -67,10 +67,11 @@ function [elast,res] = elastic_parameters_parab(file_name,error)
     elast = 3 * ls_coeff(1) / (4  * sqrt(radious)) * (1-0.5^2);
     sim_time = 0:0.002:0.002*(length(X)-1);
     visc = 0;%ls_coeff(2)/2;
-
+    figure;
+    hold on 
     plot(sim_time,ls_coeff(1)*X(:,1))%  + ls_coeff(2)*X(:,2))
     
     plot(sim_time,force(start:finish-1))
-    
+    hold off
     legend(["est","ft"])
 end
