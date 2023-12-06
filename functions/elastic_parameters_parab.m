@@ -1,9 +1,9 @@
 function [elast,res] = elastic_parameters_parab(file_name,error)
-    max_pen = 0.0025;
-    min_element = 400;
+    max_pen = 0.0035;
+    min_element = 500;
     n = 1.5;
 
-    bag = ros2bagreader("Test_multipli/" + file_name);
+    bag = ros2bagreader(file_name);
 
     bag_data = select(bag,"Topic","/data_control");
     mes_data = readMessages(bag_data);
@@ -41,12 +41,12 @@ function [elast,res] = elastic_parameters_parab(file_name,error)
     
     force = -(force_z - mean(force_z(1:min_element)));
     warning('off', 'all');
-    error = fminsearch(@(x)res_minimization(x,force,300,position_real,max_pen,min_element,n),error);
+    error = fminsearch(@(x)res_minimization(x,force,400,position_real,max_pen,min_element,n),error);
     warning('on', 'all');
     k = 1;
     flag = true;
     while(flag)
-        start = find(force>error,k)-300;
+        start = find(force>error,k)-400;
         start = start(k);
         
         if start>min_element
