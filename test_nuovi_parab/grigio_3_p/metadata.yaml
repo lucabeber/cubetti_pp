@@ -2,9 +2,9 @@ rosbag2_bagfile_information:
   version: 5
   storage_identifier: sqlite3
   duration:
-    nanoseconds: 9597933724
+    nanoseconds: 9598074007
   starting_time:
-    nanoseconds_since_epoch: 1701868049610505571
+    nanoseconds_since_epoch: 1701875144414881498
   message_count: 4800
   topics_with_message_count:
     - topic_metadata:
@@ -20,7 +20,7 @@ rosbag2_bagfile_information:
   files:
     - path: grigio_3_p_0.db3
       starting_time:
-        nanoseconds_since_epoch: 1701868049610505571
+        nanoseconds_since_epoch: 1701875144414881498
       duration:
-        nanoseconds: 9597933724
+        nanoseconds: 9598074007
       message_count: 4800
