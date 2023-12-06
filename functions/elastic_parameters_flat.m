@@ -1,7 +1,7 @@
 function [elast,res] = elastic_parameters_flat(file_name,error)
-    max_pen = 0.003;
+    max_pen = 0.0035;
     n = 1;
-    min_elements = 200;
+    min_elements = 600;
     bag = ros2bagreader( file_name);
 
     bag_data = select(bag,"Topic","/data_control");
@@ -40,12 +40,12 @@ function [elast,res] = elastic_parameters_flat(file_name,error)
     
     force = -(force_z - mean(force_z(1:min_elements)));
 %     warning('off', 'all');
-    error = fminsearch(@(x)res_minimization(x,force,100,position_real,max_pen,min_elements,n),error)
+    error = fminsearch(@(x)res_minimization(x,force,500,position_real,max_pen,min_elements,n),error)
 %     warning('on', 'all');
     k = 1;
     flag = true;
     while(flag)
-        start = find(force>error,k)-100;
+        start = find(force>error,k)-500;
         start = start(k);
         
         if start>min_elements
@@ -59,7 +59,7 @@ function [elast,res] = elastic_parameters_flat(file_name,error)
     finish = find(penetration>max_pen);
 
     X = real([(penetration(start:finish-1)).^(n)]);%,-velocity_z(start:finish-1).*(penetration.^(n-1))]);
-    [ls_coeff,~,res] = lsqr(X,force(start:finish-1));
+    [ls_coeff,~,res] = lsqr(X,force(start:finish-1))
 
     elast = ls_coeff(1) / (2  * 0.01) * (1-0.5^2);
     visc = 0;%ls_coeff(2)/2;

@@ -2,9 +2,9 @@ rosbag2_bagfile_information:
   version: 5
   storage_identifier: sqlite3
   duration:
-    nanoseconds: 9597727823
+    nanoseconds: 9598051431
   starting_time:
-    nanoseconds_since_epoch: 1701784534915596682
+    nanoseconds_since_epoch: 1701858316742214666
   message_count: 4800
   topics_with_message_count:
     - topic_metadata:
@@ -20,7 +20,7 @@ rosbag2_bagfile_information:
   files:
     - path: rosa_2_p_0.db3
       starting_time:
-        nanoseconds_since_epoch: 1701784534915596682
+        nanoseconds_since_epoch: 1701858316742214666
       duration:
-        nanoseconds: 9597727823
+        nanoseconds: 9598051431
       message_count: 4800

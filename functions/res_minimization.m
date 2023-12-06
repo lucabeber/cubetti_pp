@@ -16,5 +16,5 @@ function res = res_minimization(error,force,data,position_realt,max_pen,min_elem
 
         X = real([(penetration(start:finish-1)).^(n)]);%,-velocity_z(start:finish-1).*(penetration.^(n-1))]);
         
-        [~,~,res] = lsqr(X,force(start:finish-1));
+        [e,~,res] = lsqr(X,force(start:finish-1))
 end

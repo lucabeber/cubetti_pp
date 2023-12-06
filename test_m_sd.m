@@ -142,15 +142,15 @@ std_el_bianco = std(el)
 %%
 file_name = "test_nuovi_piatto/rosa_1_p";
 [el1,res1] = elastic_parameters_flat(file_name,2)
-
+%%
 file_name = "test_nuovi_piatto/rosa_2_p";
-[el2,res2] = elastic_parameters_flat(file_name,2)
+[el2,res2] = elastic_parameters_flat(file_name,0.5)
 
 file_name = "test_nuovi_piatto/rosa_3_p";
-[el3,res3] = elastic_parameters_flat(file_name,2)
+[el3,res3] = elastic_parameters_flat(file_name,0.6)
 
 file_name = "test_nuovi_piatto/rosa_4_p";
-[el4,res4] = elastic_parameters_flat(file_name,0.5)
+[el4,res4] = elastic_parameters_flat(file_name,0.7)
 
 
 el = [el1, el2, el3, el4]
@@ -160,17 +160,20 @@ std_el_rosa = std(el)
 
 
 file_name = "test_nuovi_piatto/grigio_1_p";
-[el1,res1] = elastic_parameters_flat(file_name,0.3)
+[el1,res1] = elastic_parameters_flat(file_name,2)
 
 file_name = "test_nuovi_piatto/grigio_2_p";
-[el2,res2] = elastic_parameters_flat(file_name,0.2)
+[el2,res2] = elastic_parameters_flat(file_name,2)
 
 file_name = "test_nuovi_piatto/grigio_3_p";
-[el3,res3] = elastic_parameters_flat(file_name,0.2)
+[el3,res3] = elastic_parameters_flat(file_name,2)
 
 file_name = "test_nuovi_piatto/grigio_4_p";
-[el4,res4] = elastic_parameters_flat(file_name,0.18)
+[el4,res4] = elastic_parameters_flat(file_name,2)
 
+el = [el1, el2, el3, el4]
+mean_el_grigio = mean(el)
+std_el_grigio = std(el)
 el = [el1, el2, el3, el4]
 mean_el_grigio = mean(el)
 std_el_grigio = std(el)
@@ -219,7 +222,7 @@ el = [el1, el2, el3, el4]
 mean_el_rosa = mean(el)
 std_el_rosa = std(el)
 
-
+%%
 file_name = "test_parab/grigio_3_s";
 [el1,res1] = elastic_parameters_parab(file_name,0.5)
 
